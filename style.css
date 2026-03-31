@@ -1,0 +1,354 @@
+:root {
+    --bg: #030303;
+    --primary: #ffffff;
+    --accent: #00f2ff;
+    --dim: rgba(255,255,255,0.4);
+    --glass-border: rgba(255,255,255,0.1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; cursor: none; }
+body { background: var(--bg); color: var(--primary); font-family: 'Inter', sans-serif; line-height: 1.4; overflow-x: hidden; width: 100%; }
+
+/* FIXED MOUSE CURSOR */
+/* We remove the blue blur from the cursor itself and keep it as a sharp black/white inverted dot */
+.cursor-dot {
+    width: 8px; height: 8px;
+    background-color: var(--primary);
+    position: fixed; top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%; z-index: 9999;
+    pointer-events: none;
+}
+.cursor-outline {
+    width: 40px; height: 40px;
+    border: 1px solid var(--primary);
+    position: fixed; top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%; z-index: 9998;
+    pointer-events: none;
+    transition: all 0.15s ease-out;
+}
+
+/* BACKGROUND GLOW (Moved away from cursor dot to stay as a subtle background element) */
+.bg-glow {
+    position: fixed;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+}
+
+/* NAVIGATION */
+nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 30px 6%; position: fixed; width: 100%; z-index: 1000;
+    background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(10px);
+}
+.logo { font-family: 'Syne'; font-size: 1.8rem; font-weight: 800; }
+.logo span { color: var(--accent); }
+.nav-links a { margin-right: 30px; text-decoration: none; color: var(--dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+.nav-links a:hover { color: var(--primary); }
+.nav-btn { 
+    background: white; 
+    /* Increased padding for a larger button area */
+    padding: 14px 32px; 
+    border-radius: 100px; 
+    /* Slightly larger font size */
+    font-size: 0.95rem;
+    font-weight: 700; 
+    border: none; 
+    transition: 0.3s; 
+    /* Space between buttons if they are next to each other */
+    margin: 0 10px; 
+}
+
+/* Optional: Subtle hover effect to match the 'premium' feel */
+.nav-btn:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+}
+.nav-btn:hover { transform: scale(1.05); background: var(--accent); }
+
+/* HERO */
+.hero { padding: 180px 6% 80px; text-align: center; }
+.badge { font-size: 0.65rem; border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 100px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; }
+.hero-title { 
+    font-family: 'Syne'; 
+    /* Reduced from clamp(3rem, 8vw, 6rem) */
+    font-size: clamp(2.5rem, 6vw, 4.5rem); 
+    line-height: 0.95; 
+    margin-bottom: 30px; 
+    text-transform: uppercase; 
+}
+.gradient-text { background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-desc { max-width: 600px; margin: 0 auto 50px; color: var(--dim); font-size: 1.1rem; font-weight: 300; }
+
+.hero-image-wrapper { 
+    width: 100%; 
+    height: 450px; 
+    min-height: 300px; /* Ensures space is held while loading */
+    overflow: hidden; 
+    border-radius: 24px; 
+    margin-top: 40px; 
+    border: 1px solid var(--glass-border);
+    background: #0a0a0a; /* Dark fallback */
+}
+
+.hero-image-wrapper img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    display: block;
+    filter: grayscale(100%) brightness(0.8); /* Refined moody look */
+    transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+
+.hero-image-wrapper:hover img { 
+    filter: grayscale(0%) brightness(1); 
+    transform: scale(1.05); 
+}
+/* WORK GALLERY GRID */
+.work-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /* Two columns side-by-side */
+    gap: 30px; 
+    margin-top: 40px;
+}
+
+.project-card { 
+    width: 80%; 
+    margin:50px;
+    transition: transform 0.4s ease;
+}
+
+.img-container { 
+    width: 100%; 
+    aspect-ratio: 16/10; 
+    overflow: hidden; 
+    border-radius: 16px; 
+    margin-bottom: 15px; 
+    background: #111; /* Fallback color */
+}
+
+.img-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    filter: grayscale(100%); 
+    transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+
+/* Hover Effects */
+/* REFINED MARQUEE */
+.marquee { 
+    border-top: 1px solid var(--glass-border); 
+    border-bottom: 1px solid var(--glass-border); 
+    padding: 20px 0; 
+    overflow: hidden; 
+    background: transparent;
+    margin-bottom: 30px;
+}
+
+.marquee-content { 
+    display: inline-block; 
+    white-space: nowrap; 
+    animation: marquee 30s linear infinite; 
+    will-change: transform;
+}
+
+.marquee span { 
+    font-family: 'Syne', sans-serif; 
+    font-size:20px; /* Reduced for a cleaner, boutique look */
+    margin-right: 50px; 
+    opacity: 0.2; 
+    text-transform: uppercase; 
+    letter-spacing: 4px;
+}
+
+@keyframes marquee { 
+    0% { transform: translateX(0); } 
+    100% { transform: translateX(-50%); } 
+}
+.section-header {
+    display: flex;
+    justify-content: space-between; /* Pushes content to opposite ends */
+    align-items:first baseline;          /* Aligns text to the bottom edge */
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;             /* Kept small for a boutique feel */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-left: 20px;
+}
+
+.section-header p {
+    font-size: 0.8rem;
+    color: var(--dim);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+    margin-right: 20px;
+}
+.project-card:hover img { 
+    filter: grayscale(0%); 
+    transform: scale(1.05); 
+}
+
+.project-info h3 { 
+    font-family: 'Syne', sans-serif; 
+    font-size: 1.1rem; 
+    letter-spacing: 1px;
+    margin-bottom: 5px; 
+}
+
+.project-info p { 
+    font-size: 0.8rem; 
+    color: var(--dim); 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .work-grid { 
+        grid-template-columns: 1fr; /* Stack on mobile */
+        gap: 40px;
+    }
+}
+/* CONFINED SERVICES (BENTO GRID) */
+.services { padding: 100px 6%; max-width: 1400px; margin: 0 auto; }
+.section-title { font-family: 'Syne'; font-size: 3rem; margin-bottom: 50px; }
+.bento-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: repeat(2, 280px); /* Fixed height to prevent screen spill */
+    gap: 20px; 
+    width: 100%;
+}
+.bento-card { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; }
+.bento-card h3 { font-family: 'Syne'; font-size: 1.5rem; margin-bottom: 15px; }
+.bento-1 { grid-row: span 2; }
+.bento-2 { grid-column: span 2; }
+.bento-2 img { position: absolute; right: -20px; bottom: -20px; width: 50%; filter: grayscale(1); opacity: 0.5; }
+
+/* NEW ABOUT SECTION */
+/* REFINED ABOUT SECTION */
+.about { 
+    padding: 100px 6%; 
+    border-top: 1px solid var(--glass-border); 
+    max-width: 1400px; 
+    margin: 0 auto; 
+}
+
+.about-content { 
+    display: grid; 
+    grid-template-columns: 1.1fr 0.9fr; 
+    gap: 60px; 
+    margin-top: 40px; 
+    align-items: start;
+}
+
+.large-text { 
+    font-size: 1.4rem; /* Reduced from 2.2rem */
+    line-height: 1.5; 
+    font-weight: 300; 
+    margin-bottom: 35px; 
+    color: var(--primary);
+}
+
+.stats-grid { 
+    display: flex; 
+    gap: 40px; 
+}
+
+.stat-item h4 { 
+    font-family: 'Syne'; 
+    font-size: 2.2rem; /* Reduced from 3.5rem */
+    color: var(--accent); 
+    margin: 0; 
+  
+    font-weight: 800;
+}
+
+.stat-item p { 
+    font-size: 0.7rem; 
+    color: var(--dim); 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+}
+
+.philosophy-card { 
+    background: rgba(255, 255, 255, 0.02); 
+    padding: 35px; 
+    border-radius: 16px; 
+    border: 1px solid var(--glass-border); 
+}
+
+.philosophy-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.philosophy-card p {
+    font-size: 0.9rem;
+    color: var(--dim);
+    line-height: 1.6;
+}
+
+/* FOOTER */
+/* FOOTER - REFINED SIZES */
+footer { 
+    padding: 80px 6%; 
+    text-align: center; 
+    border-top: 1px solid var(--glass-border); 
+}
+
+footer h2 { 
+    font-family: 'Syne'; 
+    /* Reduced from 4rem to 2rem max */
+    font-size: clamp(1.2rem, 3vw, 2rem); 
+    margin-bottom: 15px; 
+    letter-spacing: 1px;
+    color: var(--dim); /* Softened the color slightly for a premium feel */
+}
+
+.footer-email { 
+    /* Reduced from 3rem to 1.8rem max */
+    font-size: clamp(1.1rem, 4vw, 1.8rem); 
+    text-decoration: none; 
+    color: var(--primary); 
+    font-weight: 700; 
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+    display: inline-block;
+}
+
+.footer-email:hover { 
+    color: var(--accent); 
+    transform: translateY(-2px); /* Subtle lift on hover */
+}
+/* MARQUEE */
+.marquee { border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 30px 0; overflow: hidden; background: #000; }
+.marquee-content { display: inline-block; white-space: nowrap; animation: marquee 30s linear infinite; }
+.marquee span { font-family: 'Syne'; font-size: 3rem; margin-right: 60px; opacity: 0.2; text-transform: uppercase; }
+
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* REVEAL ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVENESS */
+@media (max-width: 968px) {
+    .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .bento-2 { grid-column: span 1; }
+    .about-content { grid-template-columns: 1fr; }
+    .nav-links { display: none; } /* Standard for high-end mobile sites to use a burger menu instead */
+}
